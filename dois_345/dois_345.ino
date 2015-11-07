@@ -37,7 +37,7 @@ void setup(void)
  
 void loop(void)
 {
-    Serial.println("Type key when ready..."); 
+//    Serial.println("Type key when ready..."); 
 //    while (!Serial.available()){}  // wait for a character
       delay(100);
     
@@ -47,7 +47,8 @@ void loop(void)
   //  sensors_event_t accel2Event;  
   //  accel2.getEvent(&accel2Event);
     
-//    if (accelEvent.acceleration.x < AccelMinX) AccelMinX = accelEvent.acceleration.x;
+    if (accelEvent.acceleration.y > 12) AccelMinY = 1;
+    if (accelEvent.acceleration.y < 12) AccelMinY = 0;
 //    if (accelEvent.acceleration.x > AccelMaxX) AccelMaxX = accelEvent.acceleration.x;
 //    
 //    if (accelEvent.acceleration.y < AccelMinY) AccelMinY = accelEvent.acceleration.y;
@@ -57,7 +58,22 @@ void loop(void)
 //    if (accelEvent.acceleration.z > AccelMaxZ) AccelMaxZ = accelEvent.acceleration.z;
   
 //    Serial.print("Accel Minimums: "); Serial.print(AccelMinX); Serial.print("  ");Serial.print(AccelMinY); Serial.print("  "); Serial.print(AccelMinZ); Serial.println();
-    Serial.print("Accel Atual: "); Serial.print(accelEvent.acceleration.x); Serial.print("  ");Serial.print(accelEvent.acceleration.y); Serial.print("  "); Serial.print(accelEvent.acceleration.z); Serial.println();
+  
+//    Serial.print("Accel Minimums: "); Serial.print(AccelMinX); Serial.print("  ");
+
+    if(AccelMinY == 1){
+      Serial.print("palheta");
+      Serial.println();
+    }
+    
+    
+//    Serial.print("Accel Atual: "); Serial.print(accelEvent.acceleration.x); Serial.print("  ");Serial.print(accelEvent.acceleration.y); Serial.print("  "); Serial.print(accelEvent.acceleration.z); Serial.println();
+  
+  
+//  if (accelEvent.acceleration.x < 5){
+//    Serial.print("Palheta!!!! ");
+//  }
+  
   //   Serial.print("Accel Atual: "); Serial.print(accel2Event.acceleration.x); Serial.print("  ");Serial.print(accel2Event.acceleration.y); Serial.print("  "); Serial.print(accel2Event.acceleration.z); Serial.println();
 //    Serial.print("Accel Maximums: "); Serial.print(AccelMaxX); Serial.print("  ");Serial.print(AccelMaxY); Serial.print("  "); Serial.print(AccelMaxZ); Serial.println();
  
