@@ -1,11 +1,21 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_ADXL345_U.h>
+
+
  
 /* Assign a unique ID to this sensor at the same time */
 Adafruit_ADXL345_Unified accel;
 //Adafruit_ADXL345_Unified accel2; 
- 
+
+//dedos
+const int DEDO_1=50; //p48
+const int DEDO_2=48;//p46
+const int DEDO_3=46;//p44
+const int DEDO_4=44; //p50
+int dedosAtivos [5] = {9,9,9,9,9};
+
+//accel 
 float AccelMinX = 0;
 float AccelMaxX = 0;
 float AccelMinY = 0;
@@ -16,9 +26,28 @@ int casa=0;
 int newCasa; 
 int signalCheck=1;
 int signalCheck2=1;
+
+
+void initialize_pin(){
+  pinMode(DEDO_1, INPUT); 
+  pinMode(DEDO_2, INPUT); 
+  pinMode(DEDO_3, INPUT); 
+  pinMode(DEDO_4, INPUT); 
+//  pinMode(DEDO_5, INPUT); 
+} 
+
+void readLuvas(){
+  dedosAtivos[0] = digitalRead(DEDO_1);
+  dedosAtivos[1] = digitalRead(DEDO_2);
+  dedosAtivos[2] = digitalRead(DEDO_3);
+  dedosAtivos[3] = digitalRead(DEDO_4);
+//  dedosAtivos[4] = digitalRead(DEDO_5);
+}
+
 void setup(void) 
 {
   Serial.begin(9600);
+  initialize_pin();
   Serial.println("ADXL345 Accelerometer Calibration"); 
   Serial.println("");
 
@@ -42,6 +71,10 @@ void loop(void)
 //    Serial.println("Type key when ready..."); 
 //    while (!Serial.available()){}  // wait for a character
       delay(20);
+
+
+      //ler dedos
+      readLuvas();
     
     /* Get a new sensor event */ 
     sensors_event_t accelEvent;  
@@ -56,7 +89,7 @@ void loop(void)
       newCasa=0;
     }
     else {
-      newCasa=((int)accelEvent.acceleration.x*2)/8;
+      newCasa=((int)accelEvent.acceleration.x*2)/11;
     }
     if(newCasa>0){
       signalCheck=1;
@@ -68,8 +101,8 @@ void loop(void)
     if(signalCheck==signalCheck2){
       if(newCasa<=0)
         casa=0;
-      else if(newCasa>=24)
-        casa=24;
+      else if(newCasa>=4)
+        casa=4;
       else{
         casa=newCasa;
   //    delay(150);
@@ -81,6 +114,20 @@ void loop(void)
     signalCheck2=signalCheck;
     Serial.print(casa);
       Serial.println();
+
+      for(int i=0;i<4;i++){
+    if(dedosAtivos[i] ==0){
+      Serial.print("Dedo ");
+      Serial.print(i);
+      Serial.print(" Vai: ");
+      Serial.print(dedosAtivos[i]);
+      Serial.print("dedo * 2^casa");
+      Serial.print(i*(pow(2,casa)));
+      Serial.println();
+      
+   }
+  }
+  
 //    if (accelEvent.acceleration.x > AccelMaxX) AccelMaxX = accelEvent.acceleration.x;
 //    
 //    if (accelEvent.acceleration.y < AccelMinY) AccelMinY = accelEvent.acceleration.y;

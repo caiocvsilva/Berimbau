@@ -36,14 +36,14 @@ void loop() {
   
   readLuvas();
   for(int i=0;i<4;i++){
-    if(dedosAtivos[i] ==0){
+//    if(dedosAtivos[i] ==1){
       Serial.print("Dedo ");
       Serial.print(i);
       Serial.print(" Vai: ");
       Serial.print(dedosAtivos[i]);
       Serial.println();
       
-   }
+//   }
   }//Serial.println("-----");
   delay(500);
 }
